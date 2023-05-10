@@ -143,6 +143,11 @@ final class Items implements \IteratorAggregate, PositionAware
     {
         return $this->parser->getMatchedJsonPointer();
     }
+    
+    public function getCurrentKey(): string
+    {
+        return $this->parser->getCurrentKey();
+    }
 
     /**
      * @return bool
