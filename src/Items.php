@@ -148,6 +148,11 @@ final class Items implements \IteratorAggregate, PositionAware
     {
         return $this->parser->getCurrentKey();
     }
+    
+    public function getCurrentToken(): string
+    {
+        return $this->parser->getCurrentToken();
+    }
 
     /**
      * @return bool
