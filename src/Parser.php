@@ -54,6 +54,9 @@ class Parser implements \IteratorAggregate, PositionAware
     
     /** @var string */
     private $key = "";
+    
+    /** @var string */
+    private $token = "";
 
     /**
      * @param array|string $jsonPointer Follows json pointer RFC https://tools.ietf.org/html/rfc6901
@@ -102,7 +105,7 @@ class Parser implements \IteratorAggregate, PositionAware
         $inObject = true; // hack to make "!$inObject" in first iteration work. Better code structure?
         $expectedType = self::OBJECT_START | self::ARRAY_START;
         $subtreeEnded = false;
-        $token = null;
+        $token = &$this->token;
         $currentPathChanged = true;
         $jsonPointerPath = [];
         $iteratorLevel = 0;
@@ -336,6 +339,11 @@ class Parser implements \IteratorAggregate, PositionAware
     public function getCurrentKey(): string
     {
         return $this->key;
+    }
+    
+    public function getCurrentToken(): string
+    {
+        return $this->token;
     }
 
     public function getMatchedJsonPointer(): string
