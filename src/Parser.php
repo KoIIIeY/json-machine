@@ -53,7 +53,7 @@ class Parser implements \IteratorAggregate, PositionAware
     private $hasSingleJsonPointer;
     
     /** @var string */
-    private $key;
+    private $key = "";
 
     /**
      * @param array|string $jsonPointer Follows json pointer RFC https://tools.ietf.org/html/rfc6901
