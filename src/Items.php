@@ -38,6 +38,8 @@ final class Items implements \IteratorAggregate, PositionAware
      */
     private $debugEnabled;
 
+    private $tokensIterator;
+
     /**
      * @param iterable $bytesIterator
      *
@@ -58,10 +60,12 @@ final class Items implements \IteratorAggregate, PositionAware
             $tokensClass = Tokens::class;
         }
 
+        $this->tokensIterator = new $tokensClass(
+            $this->chunks
+        );
+
         $this->parser = new Parser(
-            new $tokensClass(
-                $this->chunks
-            ),
+            $this->tokensIterator,
             $this->jsonPointer,
             $this->jsonDecoder ?: new ExtJsonDecoder()
         );
@@ -124,6 +128,10 @@ final class Items implements \IteratorAggregate, PositionAware
         return $this->parser->getIterator();
     }
 
+    public function getTokensIterator(){
+        return $this->tokensIterator;
+    }
+
     public function getPosition()
     {
         return $this->parser->getPosition();
@@ -152,6 +160,11 @@ final class Items implements \IteratorAggregate, PositionAware
     public function getCurrentToken(): string
     {
         return $this->parser->getCurrentToken();
+    }
+
+    public function getLastToken(): string
+    {
+        return $this->parser->getLastToken();
     }
     
     public function getCurrentJsonBuffer(): string
