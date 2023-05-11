@@ -61,6 +61,9 @@ class Parser implements \IteratorAggregate, PositionAware
     /** @var string */
     private $jsonBuffer = "";
 
+    /** @var string  */
+    private $lastToken = "";
+
     /**
      * @param array|string $jsonPointer Follows json pointer RFC https://tools.ietf.org/html/rfc6901
      * @param ItemDecoder  $jsonDecoder
@@ -117,6 +120,7 @@ class Parser implements \IteratorAggregate, PositionAware
         $tokens = $this->tokens;
 
         foreach ($tokens as $token) {
+            dump(['token', $token]);
             if ($currentPathChanged) {
                 $currentPathChanged = false;
                 $jsonPointerPath = $this->getMatchingJsonPointerPath();
@@ -151,6 +155,7 @@ class Parser implements \IteratorAggregate, PositionAware
                 )
             ) {
                 $jsonBuffer .= $token;
+                $this->lastToken = $token;
             }
             // todo move this switch to the top just after the syntax check to be a correct FSM
             switch ($token[0]) {
@@ -348,6 +353,11 @@ class Parser implements \IteratorAggregate, PositionAware
     {
         return $this->token;
     }
+
+    public function getLastToken(): string
+    {
+        return $this->lastToken;
+    }
     
     public function getCurrentJsonBuffer(): string
     {
@@ -361,6 +371,10 @@ class Parser implements \IteratorAggregate, PositionAware
         }
 
         return $this->matchedJsonPointer;
+    }
+
+    public function getTokens(){
+        return $this->tokens;
     }
 
     /**
