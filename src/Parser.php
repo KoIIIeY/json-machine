@@ -120,7 +120,6 @@ class Parser implements \IteratorAggregate, PositionAware
         $tokens = $this->tokens;
 
         foreach ($tokens as $token) {
-            dump(['token', $token]);
             if ($currentPathChanged) {
                 $currentPathChanged = false;
                 $jsonPointerPath = $this->getMatchingJsonPointerPath();
