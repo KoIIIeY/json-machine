@@ -12,6 +12,11 @@ class Tokens implements \IteratorAggregate, PositionAware
     private $jsonChunks;
 
     /**
+     * @var string
+     */
+    private $lastChank = "";
+
+    /**
      * @param iterable<string> $jsonChunks
      */
     public function __construct($jsonChunks)
@@ -56,6 +61,7 @@ class Tokens implements \IteratorAggregate, PositionAware
                         $escaping = true;
                     }
                     $tokenBuffer .= $byte;
+                    $this->lastChank = $tokenBuffer;
                     continue;
                 }
 
@@ -138,5 +144,10 @@ class Tokens implements \IteratorAggregate, PositionAware
     public function getColumn(): int
     {
         return 0;
+    }
+
+    public function getLastChank(): string
+    {
+        return $this->lastChank;
     }
 }
